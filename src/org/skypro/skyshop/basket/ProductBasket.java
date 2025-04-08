@@ -14,8 +14,8 @@ public class ProductBasket {
     }
 
     //Метод добавления продуктов в корзину
-    public void addProduct(Product Product) {
-        if (Product == null) {// Проверяем, что продукт не равен null
+    public void addProduct(Product product) {
+        if (product == null) {// Проверяем, что продукт не равен null
             System.out.println("Ошибка: невозможно добавить продукт, так как он равен null.");
             return;
         }
@@ -23,8 +23,8 @@ public class ProductBasket {
             System.out.println("Ошибка: корзина заполнена. Нельзя добавить больше " + MAX_CAPACITY + " продуктов.");
             return;
         }
-        products.add(Product); // Добавляем продукт в список
-        System.out.println("Продукт - " + Product.getProductName() + " добавлен в корзину.");
+        products.add(product); // Добавляем продукт в список
+        System.out.println("Продукт - " + product.getProductName() + " добавлен в корзину.");
     }
 
     //Метод получения общей стоимости продуктов корзины
