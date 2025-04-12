@@ -27,9 +27,20 @@ public class ProductBasket {
         System.out.println("Продукт - " + product.getProductName() + " добавлен в корзину.");
     }
 
+    // Метод подсчета количества специальных продуктов
+    public int countSpecialProducts() {
+        int count = 0;
+        for (Product product : products) {
+            if (product.isSpecial()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     //Метод получения общей стоимости продуктов корзины
-    public int getTotalCost() {
-        int totalCost = 0;//Переменная для хранения общей стоимости
+    public double getTotalCost() {
+        double totalCost = 0;//Переменная для хранения общей стоимости
         for (Product Product : products) {
             totalCost += Product.getProductPrice(); //Суммируем цены всех продуктов в корзине
         }
@@ -45,6 +56,7 @@ public class ProductBasket {
                 System.out.println(product);
             }
             System.out.println("Итого: " + getTotalCost());
+            System.out.println("Специальных товаров: " + countSpecialProducts());
         }
     }
 

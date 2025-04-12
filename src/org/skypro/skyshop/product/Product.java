@@ -12,6 +12,6 @@ public abstract class Product {
     public abstract double getProductPrice();
     public abstract boolean isSpecial();
     public String toString() {
-        return productName;
+        return productName + ": " + getProductPrice();
     }
 }

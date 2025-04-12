@@ -12,4 +12,11 @@ public class SimpleProduct extends Product {
     public double getProductPrice() {
         return productPrice;
     }
+
+    //Переопределяем метод
+    @Override
+    public boolean isSpecial() {
+        return false;//Обычный продукт не является специальным
+    }
+
 }
