@@ -7,6 +7,8 @@ import org.skypro.skyshop.product.*;
 
 import java.util.Arrays;
 
+import static org.skypro.skyshop.SearchEngine.SearchEngine.printSearchResults;
+
 public class App {
     public static void main(String[] args) {
         //Создаем корзину
@@ -50,12 +52,12 @@ public class App {
         basket.printProductBasket();//Печать содержимого пустой корзины
         System.out.println(basket.getTotalCost()); //Печать стоимости продуктов корзины
         System.out.println(basket.containsProductByName("молоко"));//Поиск товара в пустой корзине
-        System.out.println("Поиск по запросу 'яблоки'");
-        System.out.println(Arrays.toString(searchEngine.search("яблоки")));
-        System.out.println("Поиск по запросу 'молоко'");
-        System.out.println(Arrays.toString(searchEngine.search("молоко")));
-        System.out.println("Поиск по запросу 'хлеб'");
-        System.out.println(Arrays.toString(searchEngine.search("хлеб")));
+        System.out.println("Результаты поиска по запросу 'яблоки':");
+        printSearchResults(searchEngine.search("яблоки"));
+        System.out.println("\nРезультаты поиска по запросу 'молоко':");
+        printSearchResults(searchEngine.search("молоко"));
+        System.out.println("\nПоиск по запросу 'хлеб'");
+        printSearchResults(searchEngine.search("хлеб"));
     }
 }
 

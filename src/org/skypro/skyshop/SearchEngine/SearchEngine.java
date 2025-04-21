@@ -34,5 +34,13 @@ public class SearchEngine {
         Searchable[] resultArray = new Searchable[results.size()];
         return results.toArray(resultArray);
     }
+    // Метод для вывода результатов поиска
+    public static void printSearchResults(Searchable[] results) {
+        for (Searchable result : results) {
+            if (result != null) {
+                System.out.println(result.getStringRepresentation());
+            }
+        }
+    }
 }
 
