@@ -26,4 +26,10 @@ public class DiscountedProduct extends Product {
     public String toString() {
         return getProductName() + ": " + getProductPrice() + " (" + discountPercentage + "%)";
     }
+
+    //Переопределение методов интерфейса Searchable
+    @Override
+    public String getSearchableName() {
+        return productName;
+    }
 }

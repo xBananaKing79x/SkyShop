@@ -19,4 +19,9 @@ public class SimpleProduct extends Product {
         return false;//Обычный продукт не является специальным
     }
 
+    //Переопределение методов интерфейса Searchable
+    @Override
+    public String getSearchableName() {
+        return productName;
+    }
 }

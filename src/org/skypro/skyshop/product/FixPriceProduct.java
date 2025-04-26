@@ -14,6 +14,12 @@ public class FixPriceProduct extends Product {
 
     //Переопределение метода isSpecial
     public boolean isSpecial() {
+
         return true; // Товар с фиксированной ценой является специальным
+    }
+    //Переопределение методов интерфейса Searchable
+    @Override
+    public String getSearchableName() {
+        return productName;
     }
 }
