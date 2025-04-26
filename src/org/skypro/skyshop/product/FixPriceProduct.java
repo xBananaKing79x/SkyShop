@@ -22,4 +22,5 @@ public class FixPriceProduct extends Product {
     public String getSearchableName() {
         return productName;
     }
+
 }

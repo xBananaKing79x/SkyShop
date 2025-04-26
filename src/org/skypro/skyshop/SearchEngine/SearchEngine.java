@@ -1,5 +1,7 @@
 package org.skypro.skyshop.SearchEngine;
 
+import org.skypro.skyshop.Exeptions.BestResultNotFound;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,39 @@ public class SearchEngine {
                 System.out.println(result.getStringRepresentation());
             }
         }
+    }
+    public Searchable findBestResult(String search) throws BestResultNotFound {
+        Searchable bestResult = null;
+        int maxOccurrences = 0;
+
+        for (Searchable searchable : searchables) {
+            String searchTerm = searchable.getSearchTerm().toLowerCase();
+            String query = search.toLowerCase();
+            int occurrences = countOccurrences(searchTerm, query);
+
+            if (occurrences > maxOccurrences) {
+                maxOccurrences = occurrences;
+                bestResult = searchable;
+            }
+        }
+
+        if (bestResult == null) {
+            throw new BestResultNotFound("Не найдено результатов для запроса: " + search);
+        }
+
+        return bestResult;
+    }
+
+    private int countOccurrences(String text, String query) {
+        int count = 0;
+        int index = 0;
+
+        while ((index = text.indexOf(query, index)) != -1) {
+            count++;
+            index += query.length();
+        }
+
+        return count;
     }
 }
 

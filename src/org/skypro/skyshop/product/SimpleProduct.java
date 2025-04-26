@@ -5,7 +5,9 @@ public class SimpleProduct extends Product {
 
     public SimpleProduct(String productName, double productPrice) {
         super(productName);
-        this.productPrice = productPrice;
+        if (productPrice > 0) {
+            this.productPrice = productPrice;
+        } else throw new IllegalArgumentException("Цена товара должна быть положительным числом.");
     }
 
     @Override
@@ -24,4 +26,5 @@ public class SimpleProduct extends Product {
     public String getSearchableName() {
         return productName;
     }
-}
+    }
+

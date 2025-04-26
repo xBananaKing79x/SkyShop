@@ -1,5 +1,6 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.Exeptions.BestResultNotFound;
 import org.skypro.skyshop.SearchEngine.SearchEngine;
 import org.skypro.skyshop.SearchEngine.Searchable;
 import org.skypro.skyshop.basket.ProductBasket;
@@ -16,6 +17,25 @@ public class App {
         // Создаем движок поиска
         SearchEngine searchEngine = new SearchEngine();
         //Создаем продукты
+        try {
+            // Неправильные данные
+            Product invalidProduct1 = new SimpleProduct("", 100); // Пустое имя
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            Product invalidProduct2 = new SimpleProduct("Яблоки", 0); // Нулевая цена
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            Product invalidProduct3 = new DiscountedProduct("Молоко", 100, 150); // Скидка больше 100
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
         Product product1 = new SimpleProduct("Яблоки", 50);
         Product product2 = new SimpleProduct("Молоко", 110);
         Product product3 = new FixPriceProduct("Хлеб");
@@ -52,12 +72,21 @@ public class App {
         basket.printProductBasket();//Печать содержимого пустой корзины
         System.out.println(basket.getTotalCost()); //Печать стоимости продуктов корзины
         System.out.println(basket.containsProductByName("молоко"));//Поиск товара в пустой корзине
-        System.out.println("Результаты поиска по запросу 'яблоки':");
-        printSearchResults(searchEngine.search("яблоки"));
-        System.out.println("\nРезультаты поиска по запросу 'молоко':");
-        printSearchResults(searchEngine.search("молоко"));
-        System.out.println("\nПоиск по запросу 'хлеб'");
-        printSearchResults(searchEngine.search("хлеб"));
+        try {
+            // Успешный поиск
+            Searchable result = searchEngine.findBestResult("яблоки");
+            System.out.println("Наиболее подходящий результат: " + result.getStringRepresentation());
+        } catch (BestResultNotFound e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            // Поиск без результата
+            Searchable result = searchEngine.findBestResult("несуществующий запрос");
+            System.out.println("Наиболее подходящий результат: " + result.getStringRepresentation());
+        } catch (BestResultNotFound e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
 
