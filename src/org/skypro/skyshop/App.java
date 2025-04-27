@@ -35,7 +35,6 @@ public class App {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
-
         Product product1 = new SimpleProduct("Яблоки", 50);
         Product product2 = new SimpleProduct("Молоко", 110);
         Product product3 = new FixPriceProduct("Хлеб");
