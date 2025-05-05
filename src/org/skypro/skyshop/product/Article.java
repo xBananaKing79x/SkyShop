@@ -11,6 +11,11 @@ public class Article implements Searchable {
         this.text = articleText;
     }
 
+    @Override
+    public String getProductName() {
+        return title;
+    }
+
     public String getArticleName() {
         return title;
     }
@@ -38,5 +43,18 @@ public class Article implements Searchable {
     @Override
     public String getSearchableName() {
         return getArticleName();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Article other = (Article) obj;
+        return title.equalsIgnoreCase(other.title) && text.equalsIgnoreCase(other.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(title.toLowerCase(), text.toLowerCase());
     }
 }
