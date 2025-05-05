@@ -67,6 +67,13 @@ public class App {
         System.out.println(basket.getTotalCost()); //Печать стоимости продуктов корзины
         System.out.println(basket.containsProductByName("молоко"));//Поиск товара, который есть в корзине
         System.out.println(basket.containsProductByName("йогурт"));//Поиск товара, которого нет в корзине
+        System.out.println("Удаляем яблоки");
+        basket.removeProduct(product1);
+        // Пытаемся удалить несуществующий объект
+        System.out.println("Удаляем 'Окрошку':");
+        basket.removeProduct(new SimpleProduct("Окрошка", 200.0));
+        System.out.println("Печатаем корзину:");
+        basket.printProductBasket();
         basket.clearProductBasket();//Очистка корзины
         basket.printProductBasket();//Печать содержимого пустой корзины
         System.out.println(basket.getTotalCost()); //Печать стоимости продуктов корзины
