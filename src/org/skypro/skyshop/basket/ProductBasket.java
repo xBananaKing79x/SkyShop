@@ -3,74 +3,71 @@ package org.skypro.skyshop.basket;
 import org.skypro.skyshop.SearchEngine.Searchable;
 import org.skypro.skyshop.product.Product;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class ProductBasket {
-    private List<Product> products; //Массив продуктов в корзине
+    private Map<String, List<Searchable>> products; //"Карта" продуктов в корзине
     //private static final int MAX_CAPACITY = 5; //Ограничение максимального объема корзины
 
-    public ProductBasket() { //Инициализируем пустой список продуктов
-        products = new ArrayList<>();
+    public ProductBasket () {
+        products = new HashMap<>();
     }
 
     //Метод добавления продуктов в корзину
-    public void addProduct(Product product) {
-        if (product == null) {// Проверяем, что продукт не равен null
-            System.out.println("Ошибка: невозможно добавить продукт, так как он равен null.");
+    public void addProduct(Searchable product) {
+        if (product == null) {
+            System.out.println("Ошибка: невозможно добавить null-объект.");
             return;
         }
-//        if (products.size() >= MAX_CAPACITY) {
-//            System.out.println("Ошибка: корзина заполнена. Нельзя добавить больше " + MAX_CAPACITY + " продуктов.");
-//            return;
-//        }
-        products.add(product); // Добавляем продукт в список
-        System.out.println("Продукт - " + product.getSearchableName() + " добавлен в корзину.");
+        String name = product.getProductName();
+        products.putIfAbsent(name, new ArrayList<>());
+        products.get(name).add(product);
+        System.out.println("Продукт \"" + name + "\" добавлен в корзину.");
     }
 
     //Метод удаления объекта из корзины по имени
-    public void removeProduct(Searchable product) {
-        if (product == null) {
-            System.out.println("Ошибка: невозможно удалить null-объект.");
-            return;
-        }
-
-        boolean removed = products.remove(product);
-        if (removed) {
-            System.out.println("Продукт \"" + product + "\" удален из корзины.");
-        } else {
-            System.out.println("Ошибка: продукт \"" + product.getSearchableName() + "\" не найден в корзине.");
-        }
-    }
-
-    // Метод удаления всех продуктов с заданным именем
     public List<Searchable> removeProductsByName(String name) {
-        List<Searchable> removedProducts = new ArrayList<>(); // Список удаленных продуктов
-
-        Iterator<Product> iterator = products.iterator();
-        while (iterator.hasNext()) {
-            Searchable product = iterator.next();
-            if (product.getSearchableName().equalsIgnoreCase(name)) { // Проверка имени без учета регистра
-                removedProducts.add(product); // Добавляем в список удаленных
-                iterator.remove(); // Удаляем из корзины
-            }
-        }
-
-        if (!removedProducts.isEmpty()) {
+        List<Searchable> removedProducts = products.remove(name); // Удаляем весь список продуктов с таким именем
+        if (removedProducts != null && !removedProducts.isEmpty()) {
             System.out.println("Удалено " + removedProducts.size() + " продуктов с именем \"" + name + "\".");
         } else {
             System.out.println("Продукты с именем \"" + name + "\" не найдены в корзине.");
         }
-        return removedProducts; // Возвращаем список удаленных продуктов
+        return removedProducts != null ? removedProducts : Collections.emptyList();
+    }
+
+    // Метод удаления конкретного объекта из корзины
+    public boolean removeProduct(Searchable product) {
+        if (product == null) {
+            System.out.println("Ошибка: невозможно удалить null-объект.");
+            return false;
+        }
+        String name = product.getProductName();
+        List<Searchable> productList = products.get(name);
+        if (productList == null || productList.isEmpty()) {
+            System.out.println("Ошибка: продукт \"" + name + "\" не найден в корзине.");
+            return false;
+        }
+        boolean removed = productList.remove(product); // Удаляем объект из списка
+        if (removed) {
+            System.out.println("Продукт \"" + name + "\" удален из корзины.");
+            if (productList.isEmpty()) {
+                products.remove(name); // Удаляем ключ, если список пуст
+            }
+        } else {
+            System.out.println("Ошибка: продукт \"" + name + "\" не найден в корзине.");
+        }
+        return removed;
     }
 
     // Метод подсчета количества специальных продуктов
     public int countSpecialProducts() {
         int count = 0;
-        for (Product product : products) {
-            if (product.isSpecial()) {
-                count++;
+        for (List <Searchable> productlist : products.values()) {
+            for (Searchable product : productlist) {
+                if (product.isSpecial()) {
+                    count++;
+                }
             }
         }
         return count;
@@ -79,8 +76,12 @@ public class ProductBasket {
     //Метод получения общей стоимости продуктов корзины
     public double getTotalCost() {
         double totalCost = 0;//Переменная для хранения общей стоимости
-        for (Product Product : products) {
-            totalCost += Product.getProductPrice(); //Суммируем цены всех продуктов в корзине
+        for (List<Searchable> productlist : products.values()) {
+            for (Searchable product : productlist) {
+                if (product instanceof Product) {
+                    totalCost += ((Product) product).getProductPrice(); //Суммируем цены всех продуктов в корзине
+                }
+            }
         }
         return totalCost;
     }
@@ -88,20 +89,23 @@ public class ProductBasket {
     // Метод для вывода всех продуктов в корзине
     public void printProductBasket() {
         if (products.isEmpty()) {
-            System.out.println("в корзине пусто.");
-        } else {
-            for (Product product : products) {
-                System.out.println(product);
-            }
-            System.out.println("Итого: " + getTotalCost());
-            System.out.println("Специальных товаров: " + countSpecialProducts());
+            System.out.println("Корзина пуста.");
+            return;
         }
+        for (List<Searchable> productList : products.values()) {
+            for (Searchable product : productList) {
+                System.out.println(product.getStringRepresentation());
+            }
+        }
+        System.out.println("Итого: " + getTotalCost());
     }
 
     public boolean containsProductByName(String productName) {
-        for (Product Product : products) {
-            if (Product.getProductName().equalsIgnoreCase(productName)) { // Сравнение без учета регистра
-                return true; // Продукт найден
+        for (List<Searchable> productlist : products.values()) {
+            for (Searchable product : productlist) {
+                if (products.containsValue(productName)) { // Если содержит значение
+                    return true; // Продукт найден
+                }
             }
         }
         return false; // Продукт не найден

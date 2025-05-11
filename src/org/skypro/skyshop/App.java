@@ -7,6 +7,7 @@ import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.*;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import static org.skypro.skyshop.SearchEngine.SearchEngine.printSearchResults;
 
@@ -92,6 +93,14 @@ public class App {
             System.out.println("Наиболее подходящий результат: " + result.getStringRepresentation());
         } catch (BestResultNotFound e) {
             System.out.println(e.getMessage());
+        }
+
+        // Поиск с использованием нового метода
+        System.out.println("\nРезультаты поиска по запросу 'яблоки':");
+        Map<String, Searchable> searchResults = searchEngine.search("яблоки");
+
+        for (Map.Entry<String, Searchable> entry : searchResults.entrySet()) {
+            System.out.println(entry.getValue().getStringRepresentation());
         }
     }
 }

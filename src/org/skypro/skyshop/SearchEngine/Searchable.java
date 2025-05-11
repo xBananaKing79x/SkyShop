@@ -2,6 +2,7 @@ package org.skypro.skyshop.SearchEngine;
 
 public interface Searchable {
     String getSearchTerm(); // Термин поиска
+    boolean isSpecial();
 
     String getProductName();
 
