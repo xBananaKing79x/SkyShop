@@ -10,7 +10,8 @@ public abstract class Product implements Searchable {
             throw new IllegalArgumentException("Название не может быть пустой строкой или состоять только из пробелов.");
         } else this.productName = productName;
     }
-    public String getProductName () {
+    @Override
+    public String getProductName() {
         return productName;
     }
     public abstract double getProductPrice();
@@ -31,6 +32,18 @@ public abstract class Product implements Searchable {
     @Override
     public String getSearchableName() {
         return productName;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Product other = (Product) obj;
+        return productName.equalsIgnoreCase(other.productName);
+    }
+
+    @Override
+    public int hashCode() {
+        return productName.toLowerCase().hashCode();
     }
 }
 
