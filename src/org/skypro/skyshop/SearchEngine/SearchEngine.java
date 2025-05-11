@@ -27,9 +27,6 @@ public class SearchEngine {
         for (Searchable searchable : searchables) {
             if (searchable.getSearchTerm().toLowerCase().contains(query.toLowerCase())) {
                 results.add(searchable); // Добавляем найденный объект в результаты
-//                if (results.size() == 5) { // Если найдено 5 результатов, завершаем поиск
-//                    break;
-//                }
             }
         }
         // Преобразуем список результатов в массив
