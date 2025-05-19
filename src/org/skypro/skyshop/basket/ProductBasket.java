@@ -78,9 +78,7 @@ public class ProductBasket {
         double totalCost = 0;//Переменная для хранения общей стоимости
         for (List<Searchable> productlist : products.values()) {
             for (Searchable product : productlist) {
-                if (product instanceof Product) {
                     totalCost += ((Product) product).getProductPrice(); //Суммируем цены всех продуктов в корзине
-                }
             }
         }
         return totalCost;
