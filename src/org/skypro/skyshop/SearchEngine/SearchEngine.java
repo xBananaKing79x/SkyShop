@@ -7,32 +7,32 @@ import java.util.*;
 import static java.awt.SystemColor.text;
 
 public class SearchEngine {
-    private Map<String, Searchable> searchables; //Коллекция для поиска
+    private Set<Searchable> searchables; //Карта для поиска
 
     public SearchEngine() {
-        searchables = new HashMap<>();
+        searchables = new TreeSet<>((s1,s2) -> s1.getSearchableName().compareToIgnoreCase(s2.getSearchableName()));
     }
 
     // Метод добавления нового объекта
     public void add(Searchable searchable) {
         if (searchable != null) {
-            searchables.put(searchable.getProductName(), searchable); // Добавляем объект в список
+            searchables.add(searchable); // Добавляем объект в список
         } else {
             System.out.println("Ошибка: невозможно добавить null-объект.");
         }
     }
 
     // Метод поиска
-    public Map<String, Searchable> search(String query) {
-        Map<String, Searchable> results = new TreeMap<>(); // Сортировка по имени
-        for (Searchable searchable : searchables.values()) {
+    public Set<Searchable> search(String query) {
+        // Создаем TreeSet с компаратором
+        Set<Searchable> results = new TreeSet<>(new SearchableComparator());
+        for (Searchable searchable : searchables) {
             if (searchable.getSearchTerm().toLowerCase().contains(query.toLowerCase())) {
-                results.put(searchable.getProductName(), searchable);
+                results.add(searchable);
             }
         }
         return results;
     }
-
     // Метод для вывода результатов поиска
     public static void printSearchResults(Searchable[] results) {
         for (Searchable result : results) {
@@ -47,7 +47,7 @@ public class SearchEngine {
         Searchable bestResult = null;
         int maxOccurrences = 0;
 
-        for (Searchable searchable : searchables.values()) {
+        for (Searchable searchable : searchables) {
             String searchTerm = searchable.getSearchTerm().toLowerCase();
             String query = search.toLowerCase();
             int occurrences = countOccurrences(searchTerm, query);

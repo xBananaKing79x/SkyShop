@@ -7,7 +7,9 @@ import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.*;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import static org.skypro.skyshop.SearchEngine.SearchEngine.printSearchResults;
 
@@ -24,13 +26,11 @@ public class App {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
-
         try {
             Product invalidProduct2 = new SimpleProduct("Яблоки", 0); // Нулевая цена
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
-
         try {
             Product invalidProduct3 = new DiscountedProduct("Молоко", 100, 150); // Скидка больше 100
         } catch (IllegalArgumentException e) {
@@ -86,7 +86,6 @@ public class App {
         } catch (BestResultNotFound e) {
             System.out.println(e.getMessage());
         }
-
         try {
             // Поиск без результата
             Searchable result = searchEngine.findBestResult("несуществующий запрос");
@@ -97,10 +96,9 @@ public class App {
 
         // Поиск с использованием нового метода
         System.out.println("\nРезультаты поиска по запросу 'яблоки':");
-        Map<String, Searchable> searchResults = searchEngine.search("яблоки");
-
-        for (Map.Entry<String, Searchable> entry : searchResults.entrySet()) {
-            System.out.println(entry.getValue().getStringRepresentation());
+        Set<Searchable> searchResults = searchEngine.search("яблоки");
+        for (Searchable results : searchResults) {
+            System.out.println(searchResults);
         }
     }
 }
