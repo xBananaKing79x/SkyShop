@@ -54,6 +54,11 @@ public class Article implements Searchable {
     }
 
     @Override
+    public boolean isSpecial() {
+        return false;
+    }
+
+    @Override
     public int hashCode() {
         return java.util.Objects.hash(title.toLowerCase(), text.toLowerCase());
     }

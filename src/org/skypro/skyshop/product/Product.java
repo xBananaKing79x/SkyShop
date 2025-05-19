@@ -19,7 +19,6 @@ public abstract class Product implements Searchable {
     public String toString() {
         return productName + ": " + getProductPrice();
     }
-
     //Переопределяем методы интерфейса Searchable
     @Override
     public String getType () {
