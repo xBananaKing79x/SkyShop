@@ -46,7 +46,7 @@ public abstract class Product implements Searchable {
     }
     @Override
     public int hashCode() {
-        return productName.toLowerCase().hashCode();
+        return Objects.hashCode(productName);
     }
 }
 

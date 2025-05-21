@@ -51,7 +51,7 @@ public class Article implements Searchable {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj instanceof Article){
-            return Objects.equals(getArticleName(), ((Article) obj).getArticleName());
+            return Objects.equals(this.getArticleName(), ((Article) obj).getArticleName());
         } else {
             return false;
         }
@@ -64,6 +64,6 @@ public class Article implements Searchable {
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(title.toLowerCase(), text.toLowerCase());
+        return java.util.Objects.hash(title.toLowerCase());
     }
 }
