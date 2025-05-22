@@ -25,7 +25,7 @@ public class SearchEngine {
     // Метод поиска
     public Set<Searchable> search(String query) {
         // Создаем TreeSet с компаратором
-        Set results = new TreeSet<>(new SearchableComparator());
+        Set<Searchable> results = new TreeSet<>(new SearchableComparator());
         for (Searchable searchable : searchables) {
             if (searchable.getSearchTerm().toLowerCase().contains(query.toLowerCase())) results.add(searchable);
         }
