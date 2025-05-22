@@ -36,9 +36,14 @@ public abstract class Product implements Searchable {
     }
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || obj instanceof Searchable) {
-            Product other = (Product) obj;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Product)) {
+        Product other = (Product) obj;
             return Objects.equals(productName, ((Product) obj).productName);
         } else {
             return false;

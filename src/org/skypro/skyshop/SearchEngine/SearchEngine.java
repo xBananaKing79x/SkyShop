@@ -7,10 +7,10 @@ import java.util.*;
 import static java.awt.SystemColor.text;
 
 public class SearchEngine {
-    private Set<Searchable> searchables; //Карта для поиска
+    private Set<Searchable> searchables; //множество для поиска
 
     public SearchEngine() {
-        searchables = new TreeSet<>((s1,s2) -> s1.getSearchableName().compareToIgnoreCase(s2.getSearchableName()));
+        searchables = new HashSet<>();
     }
 
     // Метод добавления нового объекта
@@ -25,9 +25,11 @@ public class SearchEngine {
     // Метод поиска
     public Set<Searchable> search(String query) {
         // Создаем TreeSet с компаратором
-        Set results = new TreeSet<>(new SearchableComparator());
+        Set<Searchable> results = new TreeSet<>(new SearchableComparator());
         for (Searchable searchable : searchables) {
-            if (searchable.getSearchTerm().toLowerCase().contains(query.toLowerCase())) results.add(searchable);
+            if (searchable.getSearchTerm().toLowerCase().contains(query.toLowerCase())){
+                results.add(searchable);
+            }
         }
         return results;
     }
