@@ -49,7 +49,16 @@ public class Article implements Searchable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            Article other = (Article) obj;
+            return false;
+        }
         if (obj instanceof Article){
             return Objects.equals(this.getArticleName(), ((Article) obj).getArticleName());
         } else {

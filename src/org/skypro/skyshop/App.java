@@ -98,7 +98,7 @@ public class App {
         System.out.println("\nРезультаты поиска по запросу 'яблоки':");
         Set<Searchable> searchResults = searchEngine.search("яблоки");
         for (Searchable results : searchResults) {
-            System.out.println(searchResults);
+            System.out.println(results);
         }
     }
 }
