@@ -52,7 +52,10 @@ public class Article implements Searchable {
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
             Article other = (Article) obj;
             return false;
         }

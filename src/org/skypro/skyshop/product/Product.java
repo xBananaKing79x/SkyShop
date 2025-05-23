@@ -42,7 +42,7 @@ public abstract class Product implements Searchable {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Product)) {
+        if (obj instanceof Product) {
         Product other = (Product) obj;
             return Objects.equals(productName, ((Product) obj).productName);
         } else {
