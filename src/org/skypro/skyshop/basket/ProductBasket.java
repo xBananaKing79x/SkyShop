@@ -61,27 +61,20 @@ public class ProductBasket {
     }
 
     // Метод подсчета количества специальных продуктов
-    public int countSpecialProducts() {
-        int count = 0;
-        for (List <Searchable> productlist : products.values()) {
-            for (Searchable product : productlist) {
-                if (product.isSpecial()) {
-                    count++;
-                }
-            }
-        }
-        return count;
+    public long countSpecialProducts() {
+        return products.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Searchable::isSpecial)
+                .count();
     }
 
     //Метод получения общей стоимости продуктов корзины
     public double getTotalCost() {
-        double totalCost = 0;//Переменная для хранения общей стоимости
-        for (List<Searchable> productlist : products.values()) {
-            for (Searchable product : productlist) {
-                    totalCost += ((Product) product).getProductPrice(); //Суммируем цены всех продуктов в корзине
-            }
-        }
-        return totalCost;
+        return products.values().stream()
+                .flatMap(Collection::stream) // Преобразуем Stream<List<Product>> в Stream<Product>
+                .filter(Product.class::isInstance)
+                .mapToDouble(product -> ((Product) product).getProductPrice())
+                .sum();
     }
 
     // Метод для вывода всех продуктов в корзине
@@ -90,23 +83,17 @@ public class ProductBasket {
             System.out.println("Корзина пуста.");
             return;
         }
-        for (List<Searchable> productList : products.values()) {
-            for (Searchable product : productList) {
-                System.out.println(product.getStringRepresentation());
-            }
-        }
+        products.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(product-> System.out.println(product.getStringRepresentation()));
         System.out.println("Итого: " + getTotalCost());
+        System.out.println("Количество специальных продуктов: " + countSpecialProducts());
     }
 
     public boolean containsProductByName(String productName) {
-        for (List<Searchable> productlist : products.values()) {
-            for (Searchable product : productlist) {
-                if (products.containsValue(productName)) { // Если содержит значение
-                    return true; // Продукт найден
-                }
-            }
-        }
-        return false; // Продукт не найден
+        return products.values().stream() // Получаем поток списков продуктов
+                .flatMap(Collection::stream) // Преобразуем Stream<List<Searchable>> в плоский Stream<Searchable>
+                .anyMatch(product -> product.getProductName().equalsIgnoreCase(productName)); // Проверяем, есть ли продукт с указанным именем
     }
 
     public void clearProductBasket() {

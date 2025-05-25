@@ -3,6 +3,7 @@ package org.skypro.skyshop.SearchEngine;
 import org.skypro.skyshop.Exeptions.BestResultNotFound;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.awt.SystemColor.text;
 
@@ -22,17 +23,14 @@ public class SearchEngine {
         }
     }
 
-    // Метод поиска
-    public Set<Searchable> search(String query) {
-        // Создаем TreeSet с компаратором
-        Set<Searchable> results = new TreeSet<>(new SearchableComparator());
-        for (Searchable searchable : searchables) {
-            if (searchable.getSearchTerm().toLowerCase().contains(query.toLowerCase())){
-                results.add(searchable);
-            }
-        }
-        return results;
-    }
+// Метод поиска с использованием Stream API
+public Set<Searchable> search(String query) {
+    return searchables.stream()
+            .filter(searchable -> searchable.getSearchTerm().toLowerCase().contains(query.toLowerCase()))
+            .collect(Collectors.toCollection(() ->
+                    new TreeSet<>(new SearchableComparator()) // Создаем TreeSet с компаратором
+            ));
+}
     // Метод для вывода результатов поиска
     public static void printSearchResults(Searchable[] results) {
         for (Searchable result : results) {
